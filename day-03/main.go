@@ -38,4 +38,6 @@ outer:
 	}
 
 	fmt.Printf("%s\n", fizzBuzz(7))
+
+	GuessingGame()
 }

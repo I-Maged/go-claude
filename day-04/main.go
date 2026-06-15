@@ -28,7 +28,7 @@ func main() {
 
 	result, err = squareRoot(-9)
 	if err != nil {
-		fmt.Println("Error:", err) // cannot take square root of negative number
+		fmt.Println("Error:", err) // triggers error
 	} else {
 		fmt.Printf("√-9 = %.4f\n", result)
 	}

@@ -34,7 +34,6 @@ func squareRoot(a float64) (float64, error) {
 	if a < 0 {
 		return 0, ErrNegativeSqrt
 	}
-
 	return math.Sqrt(a), nil
 }
 
@@ -43,7 +42,7 @@ func power(base, exp float64) (float64, error) {
 }
 
 func calculate(label string, a, b float64, op func(float64, float64) (float64, error)) {
-	defer fmt.Println("---")
+	defer fmt.Println("---") // separator printed after every result
 
 	result, err := op(a, b)
 	if err != nil {

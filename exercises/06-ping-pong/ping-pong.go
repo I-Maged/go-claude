@@ -5,20 +5,21 @@ import (
 	"sync"
 )
 
-func Ping(pingCh chan<- string, pongCh <-chan string, wg *sync.WaitGroup) {
+func ping(pingCh chan<- string, pongCh <-chan string, wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	for range 5 {
 		pingCh <- "Ping"
 		msg := <-pongCh
-		fmt.Printf("received: %s\n", msg)
+		fmt.Printf("Received: %s\n", msg)
 	}
 }
 
-func Pong(pingCh <-chan string, pongCh chan<- string, wg *sync.WaitGroup) {
+func pong(pingCh <-chan string, pongCh chan<- string, wg *sync.WaitGroup) {
 	defer wg.Done()
 	for range 5 {
 		msg := <-pingCh
-		fmt.Printf("received: %s\n", msg)
+		fmt.Printf("Received: %s\n", msg)
 		pongCh <- "Pong"
 	}
 }
@@ -26,13 +27,17 @@ func Pong(pingCh <-chan string, pongCh chan<- string, wg *sync.WaitGroup) {
 func main() {
 	pingCh := make(chan string)
 	pongCh := make(chan string)
-	var wg sync.WaitGroup
 
+	var wg sync.WaitGroup
 	wg.Add(2)
 
-	go Ping(pingCh, pongCh, &wg)
-	go Pong(pingCh, pongCh, &wg)
+	go ping(pingCh, pongCh, &wg)
+	go pong(pingCh, pongCh, &wg)
 
 	wg.Wait()
+
+	close(pingCh)
+	close(pongCh)
+
 	fmt.Println("done")
 }

@@ -30,7 +30,7 @@ func safeCounter(n int) int {
 	for range n {
 		wg.Add(1)
 		go func() {
-			wg.Done()
+			defer wg.Done()
 			mu.Lock()
 			defer mu.Unlock()
 			counter++
